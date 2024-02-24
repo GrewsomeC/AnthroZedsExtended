@@ -3,6 +3,8 @@ UnderwearDefinition = UnderwearDefinition or {};
 
 AnthroZedsEX = {}
 
+-- create empty table to fill
+
 UnderwearDefinition.Female_F_Black = {
 	chanceToSpawn = 10000,
 	gender = "female",
@@ -18,6 +20,8 @@ UnderwearDefinition.Male_F_Black = {
 		},
 		bottom = "",
 }
+
+-- Ungulates list
 
 AnthroZedsEX.AnthroUngulatesF = {
 "Furry_AnthroUngulates_FemaleBlackSheep",
@@ -50,6 +54,8 @@ AnthroZedsEX.AnthroUngulatesM = {
 "Furry_AnthroUngulates_MaleGoatBrown"
 }
 
+-- Loong list
+
 AnthroZedsEX.LoongF = {
 "Furry_Loong_FemaleLunarLoong",
 "Furry_Loong_FemaleRedLoong",
@@ -68,6 +74,8 @@ AnthroZedsEX.LoongM = {
 "Furry_Loong_MaleBlueLoong"
 }
 
+-- Cobra/Jackalope list
+
 AnthroZedsEX.CJF = {
 "Furry_CobraJackalope_FemaleLunarJackalope",
 "Furry_CobraJackalope_FemaleDuskCobra",
@@ -81,6 +89,8 @@ AnthroZedsEX.CJM = {
 "Furry_CobraJackalope_MaleDuskJackalopeRitual",
 "Furry_CobraJackalope_MaleLunarCobraHorned"
 }
+
+-- Anthro Survivors base mod list
 
 AnthroZedsEX.baseSpeciesF = {
 "Furry_FemaleCat",
@@ -124,15 +134,14 @@ AnthroZedsEX.baseSpeciesM = {
 "Furry_MaleMarten"
 }
 
+--Define which mod uses which list
 AnthroZedsEX.modList = {
-
 AnthroUngulates = {AnthroZedsEX.AnthroUngulatesF, AnthroZedsEX.AnthroUngulatesM},
 Loong = {AnthroZedsEX.LoongF, AnthroZedsEX.LoongM},
 CobraJackalope = {AnthroZedsEX.CJF, AnthroZedsEX.CJM}
-
-
 }
 
+--Add models to the spawn list
 function AnthroZedsEX.addToSpawn(femaleList, maleList)
 	for i = 1, #femaleList do
 		table.insert(UnderwearDefinition.Female_F_Black.top, {name=""..femaleList[i], chance=1});
@@ -142,6 +151,7 @@ function AnthroZedsEX.addToSpawn(femaleList, maleList)
 	end
 end
 
+--Check if mod is installed
 function AnthroZedsEX.checkMod(modID)
 	print("Checking for mod "..modID..".")
 	if getActivatedMods():contains(modID) then
@@ -150,6 +160,7 @@ function AnthroZedsEX.checkMod(modID)
 	end
 end
 
+--Get the sandbox percentage 
 function AnthroZedsEX.updateSpawnChance()
 	print("UnderwearDefinition spawn chance was: " .. UnderwearDefintion.baseChance);
 	AZedChance = SandboxVars.AnthroZedsEX.Percent;
@@ -159,6 +170,7 @@ function AnthroZedsEX.updateSpawnChance()
 
 end
 
+--Add the default models, then check for every submod and whether it is installed or not
 function AnthroZedsEX.onGameBoot()
 	print("Anthro Zeds Expanded has loaded.")
 	AnthroZedsEX.addToSpawn(AnthroZedsEX.baseSpeciesF, AnthroZedsEX.baseSpeciesM);
@@ -167,4 +179,5 @@ function AnthroZedsEX.onGameBoot()
 	AnthroZedsEX.checkMod("CobraJackalope")
 end
 
+--Lastly, add our method to the game's boot method, so it automatically runs when the game starts.
 Events.OnGameBoot.Add(AnthroZedsEX.onGameBoot)
