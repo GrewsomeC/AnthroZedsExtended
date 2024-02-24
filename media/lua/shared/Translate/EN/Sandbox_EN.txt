@@ -1,0 +1,5 @@
+Sandbox_EN = {
+	Sandbox_AnthroZedsEX = "Anthro Zeds Expanded"
+	Sandbox_AnthroZedsEX_Percent = "Percent"
+	Sandbox_AnthroZedsEX_Percent_tooltip = "Percent of zombies that are anthros"
+}

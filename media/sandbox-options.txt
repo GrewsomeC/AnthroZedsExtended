@@ -1,0 +1,12 @@
+VERSION = 1,
+
+option AnthroZedsEX.Percent
+{
+	type = double,
+	min = 0.0,
+	max = 100.0,
+	default = 40.0,
+
+	page = AnthroZedsEX,
+	translation = AnthroZedsEX_Percent,
+}

@@ -3,6 +3,11 @@ Anthro Zeds Extended (AZE) is a mod for Project Zomboid that allows zombies to s
 
 AZE does not include any models. It only provides the ability for zombies to spawn as species added by other mods, as well as an interface for tweaking said spawns.
 
+## Installation
+The by far easiest method is to simply subscribe to the mod on Steam Workshop. Steam will download, unpack, and install everything in the proper place for you. It will also automatically download and install updates whenever I add them.
+
+If for some reason you insist on installing it manually, Windows users can download this repo and place it in C:/users/<username>/Zomboid/mods/AnthroZedsExtended.
+
 ## Additions
 Anthro Zeds Extended adds a number of features not included in the original Anthro Zeds mod:
 
@@ -37,10 +42,9 @@ I plan to add the following mods as compatible soon:
 The following mods are **not** compatible with Anthro Zeds Extended. Do not run these mods while Anthro Zeds Extended is running.
 
 * [Anthro Zeds mod](https://steamcommunity.com/sharedfiles/filedetails/?id=2930890411)
-  * Will at best duplicate some spawns, at best completely override what this mod does. They do the same thing anyway, so there's no point.
+  * Will at best duplicate some spawns, at worst completely override what this mod does. They do the same thing anyway, so there's no point.
 * Any other mods that spawn clothing on zombies by utilizing the UnderwearDefinitions method.
   * Will either add non-anthro spawns to the game, overwrite them, or do nothing depending on load order. Point being, if a mod adds clothing to a zombie when it spawns, it will probably cause issues.
-
 
 ## FAQ
 
@@ -61,9 +65,13 @@ There are simply too many of them to go through and add every single one to this
 There are a few very rare spawn (~1:100,000) easter egg zeds, yes. They are OCs of mine and my close friends.
 
 ### Can I play a human with anthro zombies?
-AZE makes absolutely zero changes to players. You can play as anything you want.
+AZE makes absolutely zero changes to players. You can play as anything you want, including humans.
+
+## Technical Details (smelly nerd stuff)
+
 
 ## Credits/Thanks
 * Wuffwick and Jaql for making the [Anthro Survivors mod](https://steamcommunity.com/sharedfiles/filedetails/?id=2893930681).
 * Sai for making the original [Anthro Zeds mod](https://steamcommunity.com/sharedfiles/filedetails/?id=2930890411).
 * All the modders making new species for the Anthro Survivors mod.
+* CAESURA, creator of numerous [Anthro Survivors submods](https://steamcommunity.com/workshop/filedetails/?id=3162333876), for providing me with the original Anthro Survivors app when it became unavailable.

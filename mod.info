@@ -1,0 +1,5 @@
+name=Anthro Zeds Expanded
+poster=poster.png
+id=AnthroZedsEx
+description=Adds the ability for zombies to spawn as furries from Anthro Survivors.
+require=FurryMod
