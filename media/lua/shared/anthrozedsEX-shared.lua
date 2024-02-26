@@ -150,9 +150,10 @@ AnthroZedsEX.optionalSlots = {
 	"Shoes"
 }
 AnthroZedsEX.debugLastZombie = {}
+AnthroZedsEX.totalZombies = 0
 
 function AnthroZedsEX.checkZombie(zombie)
-	local zID = zombie:getUID()
+	local zID = zombie:getPersistentOutfitID()
     if has_value(AnthroZedsEX.checkedZeds, zID) then
         return
 	end
@@ -160,7 +161,9 @@ function AnthroZedsEX.checkZombie(zombie)
 	local itemVisuals = zombie:getItemVisuals()
 
 	for i = 1, itemVisuals:size() - 1 do
+		if itemVisuals:size() < 2 then return end
 		local testedItem = itemVisuals:get(i)
+		if testedItem == nil then return end
 		local bodySlot = testedItem:getScriptItem():getBodyLocation()
 		local optionalItem = has_value(AnthroZedsEX.optionalSlots, bodySlot)
 		if optionalItem == true then
@@ -169,10 +172,10 @@ function AnthroZedsEX.checkZombie(zombie)
 			else
 				testedItem:setItemType("Base.Furry_MaleCat")
 			end
-			print("Item on this zombie replaced!")
+			print("Item on "..zID.." replaced!")
 			zombie:resetModel()
 			table.insert(AnthroZedsEX.checkedZeds, zID)
-			break
+			return
 		end
 	end
 
@@ -183,12 +186,13 @@ function AnthroZedsEX.onGameStart()
 	AnthroZedsEX.checkMods()
 end
 
-function AnthroZedsEX.OnZombieUpdate(zombie)
+function AnthroZedsEX.onZombieUpdate(zombie)
     local checkedZed = AnthroZedsEX.checkZombie(zombie)
 end
 
 
-Events.OnZombieUpdate.Add(AnthroZedsEX.OnZombieUpdate)
+
+Events.OnZombieUpdate.Add(AnthroZedsEX.onZombieUpdate)
 Events.OnGameStart.Add(AnthroZedsEX.onGameStart)
 
 print("AZE loaded.")
