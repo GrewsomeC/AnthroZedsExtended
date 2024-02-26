@@ -126,6 +126,7 @@ function AnthroZedsEX.checkMods()
 	end
 end
 
+--Add species to spawn list.
 function AnthroZedsEX.addToSpawn(modTable)
 	for i = 1, #modTable.types do
 		table.insert(AnthroZedsEX.availableModels.female, {name=""..modTable.start.."Female"..modTable.types[i], chance=1})
@@ -135,20 +136,16 @@ function AnthroZedsEX.addToSpawn(modTable)
 	end
 end
 
-AnthroZedsEX.tableSize = #AnthroZedsEX.availableModels.female
-
+--Pick random species from the available list.
 function AnthroZedsEX.randomFurry(female)
-	AnthroZedsEX.tableSize = #AnthroZedsEX.availableModels.female
 	local randomFur
 	local randomNumber
 	if female then
-		print("Confirming not nil: "..AnthroZedsEX.tableSize)
-		randomNumber = math.random(AnthroZedsEX.tableSize)
+		randomNumber = ZombRand(#AnthroZedsEX.availableModels.female)
 		randomFur = AnthroZedsEX.availableModels.female[randomNumber]["name"]
 		return randomFur
 	else
-		print("Confirming not nil: "..AnthroZedsEX.tableSize)
-		randomNumber = math.random(AnthroZedsEX.tableSize)
+		randomNumber = ZombRand(#AnthroZedsEX.availableModels.male)
 		randomFur = AnthroZedsEX.availableModels.male[randomNumber]["name"]
 		return randomFur
 	end
@@ -159,28 +156,27 @@ AnthroZedsEX.optionalSlots = {
 	"Socks",
 	"RightWrist",
 	"LeftWrist",
-	"Hat",
 	"Right_MiddleFinger",
 	"Left_MiddleFinger",
 	"Right_RingFinger",
 	"Left_RingFinger",
-	"TankTop",
-	"Tshirt",
-	"Sweater",
 	"Hands",
 	"Shoes"
 }
 AnthroZedsEX.debugLastZombie = {}
 AnthroZedsEX.totalZombies = 0
 
+--Extremely rough and will need to be rewritten later to some extent.
+--Want to make the chosen item actually find the lowest point on the list rather than just the first one it finds.
 function AnthroZedsEX.checkZombie(zombie)
 	local zID = zombie:getPersistentOutfitID()
     if has_value(AnthroZedsEX.checkedZeds, zID) then
         return
 	end
-
+	--Zombies don't have inventories until they die, so we have to get their "ItemVisuals" instead.
 	local itemVisuals = zombie:getItemVisuals()
-
+	
+	--Loop through all of their visuals and find an item that is on an "optional" slot, replace it with fur.
 	for i = 1, itemVisuals:size() - 1 do
 		if itemVisuals:size() < 2 then return end
 		local testedItem = itemVisuals:get(i)
@@ -202,8 +198,8 @@ end
 
 function AnthroZedsEX.onGameStart()
 	print("AZE: Starting onGameStart.")
-	AnthroZedsEX.checkMods()
 	AnthroZedsEX.addToSpawn(AnthroZedsEX.baseSpecies)
+	AnthroZedsEX.checkMods()
 end
 
 function AnthroZedsEX.onZombieUpdate(zombie)
