@@ -69,6 +69,9 @@ There are a few very rare spawn (~1:100,000) easter egg zeds, yes. They are OCs 
 ### Can I play a human with anthro zombies?
 AZE makes absolutely zero changes to players. You can play as anything you want, including humans.
 
+### Can you add X or Y species?
+No. My knowledge and skill with 3D modeling is extremely limited. If you would like a new species added, you will either have to learn to model and texture it yourself and then upload it to the Workshop for inclusion, or commission one of the people that do create new species to make yours.
+
 ## Technical Details (STUPID SMELLY NERD stuff)
 Zomboid has a strangely specific mechanic called UnderwearDefinition. This script rolls a random number behind the scenes whenever a zombie is spawned, determines if a zombie will have underwear equipped, and if so, rolls a second number to determine which set of underwear a zombie has. If you've ever wondered why zombies with the same clothing uniforms can have different or no underwear, this is why. (Fun fact: by default, only 70% of people in Knox County wear underpants or bras.)
 

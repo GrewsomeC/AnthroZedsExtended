@@ -1,5 +1,14 @@
 Sandbox_EN = {
 	Sandbox_AnthroZedsEX = "Anthro Zeds Expanded"
-	Sandbox_AnthroZedsEX_Percent = "Percent"
-	Sandbox_AnthroZedsEX_Percent_tooltip = "Percent of zombies that are anthros"
+	Sandbox_AnthroZedsEX_PercentageAnthro = "Percent"
+	Sandbox_AnthroZedsEX_PercentageAnthro_tooltip = "Percent of zombies that spawn as anthros."
+
+	Sandbox_AnthroZedsEX_allowAnachronistic = "Allow Anachronistic Species"
+	Sandbox_AnthroZedsEX_allowAnachronistic_tooltip = "Whether to allow anachronistic species: synth, protogen."
+
+	Sandbox_AnthroZedsEX_allowFantasy = "Allow Fantasy Species"
+	Sandbox_AnthroZedsEX_allowFantasy_tooltip = "Whether to allow fantasy species: loong, hellhound, jackalope."
+
+	Sandbox_AnthroZedsEX_allowUnnatural = "Allow Unnatural Colors"
+	Sandbox_AnthroZedsEX_allowUnnatural_tooltip = "Whether to allow unnatural colors: pink cow, blue sheep, pride tiger."
 }
