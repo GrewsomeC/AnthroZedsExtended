@@ -18,7 +18,9 @@ AnthroZedsEX.enableUnnatural = true
 
 --List of enabled mods
 AnthroZedsEX.enabledMods = {}
-AnthroZedsEX.avaialbleModels = {}
+AnthroZedsEX.availableModels = {}
+AnthroZedsEX.availableModels.female = {}
+AnthroZedsEX.availableModels.male = {}
 
 
 -- Ungulates list
@@ -126,10 +128,29 @@ end
 
 function AnthroZedsEX.addToSpawn(modTable)
 	for i = 1, #modTable.types do
-		table.insert(AnthroZedsEX.avaialbleModels, {name=""..modTable.start.."Female"..modTable.types[i], chance=1})
+		table.insert(AnthroZedsEX.availableModels.female, {name=""..modTable.start.."Female"..modTable.types[i], chance=1})
 		print(""..modTable.start.."Female"..modTable.types[i].." added to female spawns")
-		table.insert(AnthroZedsEX.avaialbleModels, {name=""..modTable.start.."Male"..modTable.types[i], chance=1})
+		table.insert(AnthroZedsEX.availableModels.male, {name=""..modTable.start.."Male"..modTable.types[i], chance=1})
 		print(""..modTable.start.."Male"..modTable.types[i].." added to male spawns")
+	end
+end
+
+AnthroZedsEX.tableSize = #AnthroZedsEX.availableModels.female
+
+function AnthroZedsEX.randomFurry(female)
+	AnthroZedsEX.tableSize = #AnthroZedsEX.availableModels.female
+	local randomFur
+	local randomNumber
+	if female then
+		print("Confirming not nil: "..AnthroZedsEX.tableSize)
+		randomNumber = math.random(AnthroZedsEX.tableSize)
+		randomFur = AnthroZedsEX.availableModels.female[randomNumber]["name"]
+		return randomFur
+	else
+		print("Confirming not nil: "..AnthroZedsEX.tableSize)
+		randomNumber = math.random(AnthroZedsEX.tableSize)
+		randomFur = AnthroZedsEX.availableModels.male[randomNumber]["name"]
+		return randomFur
 	end
 end
 
@@ -167,11 +188,8 @@ function AnthroZedsEX.checkZombie(zombie)
 		local bodySlot = testedItem:getScriptItem():getBodyLocation()
 		local optionalItem = has_value(AnthroZedsEX.optionalSlots, bodySlot)
 		if optionalItem == true then
-			if zombie:isFemale() then
-				testedItem:setItemType("Base.Furry_FemaleCat")
-			else
-				testedItem:setItemType("Base.Furry_MaleCat")
-			end
+			local randomFur = AnthroZedsEX.randomFurry(zombie:isFemale())
+			testedItem:setItemType(randomFur)
 			print("Item on "..zID.." replaced!")
 			zombie:resetModel()
 			table.insert(AnthroZedsEX.checkedZeds, zID)
@@ -183,7 +201,9 @@ function AnthroZedsEX.checkZombie(zombie)
 end
 
 function AnthroZedsEX.onGameStart()
+	print("AZE: Starting onGameStart.")
 	AnthroZedsEX.checkMods()
+	AnthroZedsEX.addToSpawn(AnthroZedsEX.baseSpecies)
 end
 
 function AnthroZedsEX.onZombieUpdate(zombie)
