@@ -153,15 +153,15 @@ AnthroZedsEX.debugLastZombie = {}
 
 function AnthroZedsEX.checkZombie(zombie)
 	local zID = zombie:getUID()
+    if has_value(AnthroZedsEX.checkedZeds, zID) then
+        return
+	end
 
-	local itemReplaced = false
 	local itemVisuals = zombie:getItemVisuals()
 
 	for i = 1, itemVisuals:size() - 1 do
 		local testedItem = itemVisuals:get(i)
-		if not testedItem then return end
 		local bodySlot = testedItem:getScriptItem():getBodyLocation()
-		
 		local optionalItem = has_value(AnthroZedsEX.optionalSlots, bodySlot)
 		if optionalItem == true then
 			if zombie:isFemale() then
@@ -172,18 +172,9 @@ function AnthroZedsEX.checkZombie(zombie)
 			print("Item on this zombie replaced!")
 			zombie:resetModel()
 			table.insert(AnthroZedsEX.checkedZeds, zID)
-			itemReplaced = true
 			break
 		end
 	end
-
-	if itemReplaced == false then
-		print("Unable to find an item to replace on this zombie!")
-		print("Zombie: "..zID)
-		AnthroZedsEX.debugLastZombie = zombie
-		table.insert(AnthroZedsEX.checkedZeds, zID)
-	end
-
 
 	
 end
