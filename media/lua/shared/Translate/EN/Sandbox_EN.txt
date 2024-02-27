@@ -11,4 +11,7 @@ Sandbox_EN = {
 
 	Sandbox_AnthroZedsEX_allowUnnatural = "Allow Unnatural Colors"
 	Sandbox_AnthroZedsEX_allowUnnatural_tooltip = "Whether to allow unnatural colors: pink cow, blue sheep, pride tiger."
+
+	Sandbox_AnthroZedsEX_allowInsects = "Allow Insect Species"
+	Sandbox_AnthroZedsEX_allowInsects_tooltip = "Whether to allow insect species from Insectoids."
 }

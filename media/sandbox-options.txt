@@ -23,7 +23,7 @@ option AnthroZedsEX.allowAnachronistic
 option AnthroZedsEX.allowFantasy
 {
 	type = boolean,
-	default = true,
+	default = false,
 
 	page = AnthroZedsEX,
 	translation = AnthroZedsEX_allowFantasy,
@@ -32,8 +32,17 @@ option AnthroZedsEX.allowFantasy
 option AnthroZedsEX.allowUnnatural
 {
 	type = boolean,
-	default = true,
+	default = false,
 
 	page = AnthroZedsEX,
 	translation = AnthroZedsEX_allowUnnatural,
+}
+
+option AnthroZedsEX.allowInsects
+{
+	type = boolean,
+	default = false,
+
+	page = AnthroZedsEX,
+	translation = AnthroZedsEX_allowInsects,
 }

@@ -30,11 +30,12 @@ The following mods are compatible with Anthro Zeds Extended, and will automatica
 * [Anthro Survivors - Ungulate Friends](https://steamcommunity.com/sharedfiles/filedetails/?id=2934987146) by Yap
 * [Anthro Survivors - Cobra and Jackalope](https://steamcommunity.com/sharedfiles/filedetails/?id=3092480630) by CAESURA
 * [Anthro Survivors - Loong](https://steamcommunity.com/sharedfiles/filedetails/?id=3157929817) by CAESURA
+* [Anthro Survivors - More Species](https://steamcommunity.com/sharedfiles/filedetails/?id=2986277840) by Xochiesuincle
 
 ### Upcoming
 I plan to add the following mods as compatible soon:
 
-* [Anthro Survivors - More Species](https://steamcommunity.com/sharedfiles/filedetails/?id=2986277840) by Xochiesuincle
+
 * [Anthro Survivors - Scalies!](https://steamcommunity.com/sharedfiles/filedetails/?id=2921417999) by JusFoNo
 * [Anthro Survivors - Aligator and Shark](https://steamcommunity.com/sharedfiles/filedetails/?id=3069371309) by CAESURA
 * [Anthro Survivors - Insectoids](https://steamcommunity.com/sharedfiles/filedetails/?id=3162204987) by CAESURA
