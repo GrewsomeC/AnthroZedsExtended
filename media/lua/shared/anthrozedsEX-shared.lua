@@ -27,9 +27,11 @@ AnthroZedsEX.availableModels.male = {}
 
 AnthroZedsEX.debugMode = true
 
+AnthroZedsEX.maxChecksToReset = 100
+
 -- Ungulates list
 AnthroZedsEX.Ungulates = {}
-AnthroZedsEX.Ungulates.start = "Furry_AnthroUngulates"
+AnthroZedsEX.Ungulates.start = "Furry_AnthroUngulates_"
 AnthroZedsEX.Ungulates.types = {
 	"BlackSheep",
 	"WhiteSheep",
@@ -111,7 +113,7 @@ AnthroZedsEX.XochieMSM.anachronistic = {
 AnthroZedsEX.XochieMSM.fantasy = {
 	"bluvali",
 	"pinkvali",
-	"greenvali",
+	"Greenvali",
 	"bluesergal",
 	"brownsergal",
 	"greensergal",
@@ -187,6 +189,7 @@ function AnthroZedsEX.addToSpawn(modTable)
 		table.insert(AnthroZedsEX.availableModels.male, {name=""..modTable.start.."Male"..modTable.types[i], chance=1})
 		if AnthroZedsEX.debugMode then print(""..modTable.start.."Male"..modTable.types[i].." added to male spawns") end
 	end
+	--Check if anachronism is enabled, and if there is any to add.
 	if AnthroZedsEX.debugMode then if not AnthroZedsEX.enableAnachronistic then print("Anachronism disabled, skipping check.") end end
 	if AnthroZedsEX.debugMode then if not modTable.anachronistic then print("Mod has no anachronistic species to add.") end end
 	if AnthroZedsEX.enableAnachronistic and modTable.anachronistic then
@@ -198,6 +201,7 @@ function AnthroZedsEX.addToSpawn(modTable)
 			if AnthroZedsEX.debugMode then print(""..modTable.start.."Male"..modTable.anachronistic[i].." added to male spawns") end
 		end
 	end
+	--Check if fantasy is enabled, and if there is any to add.
 	if AnthroZedsEX.debugMode then if not AnthroZedsEX.enableFantasy then print("Fantasy disabled, skipping check.") end end
 	if AnthroZedsEX.debugMode then if not modTable.fantasy then print("Mod has no fantasy species to add.") end end
 	if AnthroZedsEX.enableFantasy and modTable.fantasy then
@@ -214,13 +218,17 @@ end
 --Pick random species from the available list.
 function AnthroZedsEX.randomFurry(female)
 	local randomFur
-	local randomNumber
+	local randomNumber = ZombRand(1, #AnthroZedsEX.availableModels.female)
+	--I have no idea what is causing this rand function to give 0 sometimes. Should be literally impossible, because the lowest is 1.
+	--This should fix it until I figure out a reason? I hope?
+	while (randomNumber < 1 or randomNumber > #AnthroZedsEX.availableModels.female) and #AnthroZedsEX.availableModels.female > 0 do
+		if AnthroZedsEX.debugMode then print("While loop in randomFurry has triggered. randomNumber was: " ..randomNumber) end
+		randomNumber = ZombRand(1, #AnthroZedsEX.availableModels.female)
+	end
 	if female then
-		randomNumber = ZombRand(#AnthroZedsEX.availableModels.female)
 		randomFur = AnthroZedsEX.availableModels.female[randomNumber]["name"]
 		return randomFur
 	else
-		randomNumber = ZombRand(#AnthroZedsEX.availableModels.male)
 		randomFur = AnthroZedsEX.availableModels.male[randomNumber]["name"]
 		return randomFur
 	end
@@ -232,35 +240,55 @@ AnthroZedsEX.checkedZeds = {}
 --Slots we don't really care about. If I can find a way to make anthro feet "tough"
 --and not be injured barefoot, I might just swap this to socks/shoes entirely.
 AnthroZedsEX.optionalSlots = {
-	"Socks",
-	"RightWrist",
-	"LeftWrist",
-	"Right_MiddleFinger",
-	"Left_MiddleFinger",
-	"Right_RingFinger",
-	"Left_RingFinger",
-	"Hands",
-	"Shoes"
+	"MakeUp_FullFace",
+	"MakeUp_Eyes",
+	"MakeUp_EyesShadow",
+	"MakeUp_Lips",
+	"Underwear",
+	"UnderwearBottom",
+	"UnderwearTop",
+	"UnderwearExtra1",
+	"UnderwearExtra2",
+	"Hat",
+	"Ears",
+	"EarTop",
+	"Nose",
+	"Torso1",
+	"Torso1Legs1",
+	"TankTop",
+	"Tshirt",
+	"Shirt"
 }
+
+AnthroZedsEX.debugSlotIssue = {}
 
 --Extremely rough and will need to be rewritten later to some extent.
 --Want to make the chosen item actually find the lowest point on the list rather than just the first one it finds.
 --But for now, it works.
 function AnthroZedsEX.checkZombie(zombie)
+	AnthroZedsEX.checkTotal()
 	local zID = zombie:getPersistentOutfitID()
     if has_value(AnthroZedsEX.checkedZeds, zID) then
         return
 	end
+	if AnthroZedsEX.debugMode then AnthroZedsEX.debugSlotIssue[tostring(zID)] = {} end
 	--Zombies don't have inventories until they die, so we have to get their "ItemVisuals" instead.
 	local itemVisuals = zombie:getItemVisuals()
-	
+
 	--Loop through all of their visuals and find an item that is on an "optional" slot, replace it with fur.
 	--Because for some reason, they DO store a list of clothing, just NOT as items. Uh, okay I guess.
-	for i = 1, itemVisuals:size() - 1 do
+	for i = 0, itemVisuals:size() - 1 do
 		if itemVisuals:size() < 2 then return end
 		local testedItem = itemVisuals:get(i)
 		if testedItem == nil then return end
 		local bodySlot = testedItem:getScriptItem():getBodyLocation()
+
+		if AnthroZedsEX.debugMode then table.insert(AnthroZedsEX.debugSlotIssue[tostring(zID)], ""..testedItem:getScriptItem():getDisplayName().." : "..bodySlot) end
+
+
+		--If the zombie already has a fur item equipped, break and stop. This prevents zombies having two skins attached.
+		if bodySlot == "Fur" or bodySlot == "fur" then table.insert(AnthroZedsEX.checkedZeds, zID) print(zID .." already has fur.") break end
+		--Otherwise, if the item isn't fur, check if it is a slot we can replace, then replace it.
 		local optionalItem = has_value(AnthroZedsEX.optionalSlots, bodySlot)
 		if optionalItem == true then
 			local randomFur = AnthroZedsEX.randomFurry(zombie:isFemale())
@@ -271,8 +299,17 @@ function AnthroZedsEX.checkZombie(zombie)
 			return
 		end
 	end
+end
 
-	
+--Performance saver. Rather than iterating every zombie, every tick, we store what we have already seen and skip it.
+--HOWEVER, since Zomboid for some bizarre reason recycles what are supposed to be unique IDs, this leads to human spawns since
+--eventually, we will find a reused ID. So, we clear the list out every 100 zombies.
+--This means if we stay in an area, we will skip those zombies, but once we move and see many more zombies, the list resets.
+function AnthroZedsEX.checkTotal()
+	if #AnthroZedsEX.checkedZeds > AnthroZedsEX.maxChecksToReset then
+		if AnthroZedsEX.debugMode then print("checkedZeds is over "..AnthroZedsEX.maxChecksToReset..". Resetting it") end
+		AnthroZedsEX.checkedZeds = {}
+	end
 end
 
 function AnthroZedsEX.onGameStart()
@@ -289,9 +326,16 @@ function AnthroZedsEX.onZombieUpdate(zombie)
     AnthroZedsEX.checkZombie(zombie)
 end
 
+--Debug mode only. Prints the zombie's ID when they are hit, for debugging with debugSlotIssue.
+function AnthroZedsEX.onHitZombie(zombie)
+	local zID = zombie:getPersistentOutfitID()
+	print("Hit zombie's ID: "..zID)
+end
 
 
-Events.OnZombieUpdate.Add(AnthroZedsEX.onZombieUpdate)
+
+if AnthroZedsEX.debugMode then Events.OnZombieUpdate.Add(AnthroZedsEX.onZombieUpdate) end
 Events.OnGameStart.Add(AnthroZedsEX.onGameStart)
+Events.OnHitZombie.Add(AnthroZedsEX.onHitZombie)
 
-if AnthroZedsEX.debugMode then print("AZE loaded.") end
+print("AZE loaded.")
