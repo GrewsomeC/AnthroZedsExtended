@@ -4,7 +4,7 @@ Anthro Zeds Extended (AZE) is a mod for Project Zomboid that allows zombies to s
 AZE does not include any models. It only provides the ability for zombies to spawn as species added by other mods, as well as an interface for tweaking said spawns.
 
 ## Installation
-The by far easiest method is to simply subscribe to the mod on Steam Workshop. Steam will download, unpack, and install everything in the proper place for you. It will also automatically download and install updates whenever I add them.
+The by far easiest method is to simply subscribe to the mod on Steam Workshop. (Link will be added once uploaded.) Steam will download, unpack, and install everything in the proper place for you. It will also automatically download and install updates whenever I add them.
 
 If for some reason you insist on installing it manually, Windows users can download this repo and place it in C:/users/<\username>/Zomboid/mods/AnthroZedsExtended.
 
@@ -60,14 +60,14 @@ I am currently unaware of any other incompabilities. This should function fine w
 
 I am aware of a few minor issues. They are all cosmetic and do not affect gameplay.
 
-* Almost all instances of human zeds have been fixed. Still investigating a very rare circumstance where an item to replace is found, but then not actually replaced.
+* Extremely rarely some zombies will just... not be furry. I have exhausted literally all reasons I and the modders I asked why this might be. Just going to have to live with 99.9% furs.
 * Something causes zeds to rarely have transparent scalps. I have no idea what. I suspect it is a bandage or wound. Someone who knows 3D modeling will probably have to look at this.
-* Already-dead zombies don't update in the same way "living" zombies do, and so don't have fur equipped, leaving them as humans. I have not yet added a mechanic to detect corpses and add something.
+* Already-dead zombies don't update in the same way "living" zombies do, and so don't have fur equipped, leaving them as humans. I have not yet added a mechanic to detect corpses and add something.s
 
 ## FAQ
 
 ### Can I have 100% anthro spawns?
-Yes, as of the new version you should get 100% anthro spawns. There are still a handful of circumstances where humans spawn, but these are bugs I am squishing (see known issues).
+Yes, as of the new version you should get rougly 100% anthro spawns. There are still a handful of circumstances where humans spawn, but these are bugs I am squishing (see known issues).
 
 ### Will this spawn specific skins from individual fursona workshop items?
 No. AZE only spawns the skins included in the base mods listed above in _compatible mods._

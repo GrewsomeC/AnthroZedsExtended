@@ -257,7 +257,9 @@ AnthroZedsEX.optionalSlots = {
 	"Torso1Legs1",
 	"TankTop",
 	"Tshirt",
-	"Shirt"
+	"Shirt",
+	"Socks",
+	"Shoes"
 }
 
 AnthroZedsEX.debugSlotIssue = {}
@@ -266,12 +268,6 @@ AnthroZedsEX.debugSlotIssue = {}
 --Want to make the chosen item actually find the lowest point on the list rather than just the first one it finds.
 --But for now, it works.
 function AnthroZedsEX.checkZombie(zombie)
-	AnthroZedsEX.checkTotal()
-	local zID = zombie:getPersistentOutfitID()
-    if has_value(AnthroZedsEX.checkedZeds, zID) then
-        return
-	end
-	if AnthroZedsEX.debugMode then AnthroZedsEX.debugSlotIssue[tostring(zID)] = {} end
 	--Zombies don't have inventories until they die, so we have to get their "ItemVisuals" instead.
 	local itemVisuals = zombie:getItemVisuals()
 
@@ -283,11 +279,8 @@ function AnthroZedsEX.checkZombie(zombie)
 		if testedItem == nil then return end
 		local bodySlot = testedItem:getScriptItem():getBodyLocation()
 
-		if AnthroZedsEX.debugMode then table.insert(AnthroZedsEX.debugSlotIssue[tostring(zID)], ""..testedItem:getScriptItem():getDisplayName().." : "..bodySlot) end
-
-
 		--If the zombie already has a fur item equipped, break and stop. This prevents zombies having two skins attached.
-		if bodySlot == "Fur" or bodySlot == "fur" then table.insert(AnthroZedsEX.checkedZeds, zID) print(zID .." already has fur.") break end
+		if bodySlot == "Fur" or bodySlot == "fur" then break end
 		--Otherwise, if the item isn't fur, check if it is a slot we can replace, then replace it.
 		local optionalItem = has_value(AnthroZedsEX.optionalSlots, bodySlot)
 		if optionalItem == true then
@@ -295,10 +288,37 @@ function AnthroZedsEX.checkZombie(zombie)
 			testedItem:setItemType(randomFur)
 			if AnthroZedsEX.debugMode then print("Item on "..zID.." replaced!") end
 			zombie:resetModel()
-			table.insert(AnthroZedsEX.checkedZeds, zID)
 			return
 		end
 	end
+end
+
+AnthroZedsEX.cellZombies = {}
+AnthroZedsEX.zombiesInCell = 0
+AnthroZedsEX.zombiesFurred = 0
+AnthroZedsEX.zombiesPerTick = 2
+
+--Get all zombies within the area the player is in.
+function AnthroZedsEX.getZombies()
+	AnthroZedsEX.cellZombies = getWorld():getCell():getZombieList()
+	AnthroZedsEX.zombiesInCell = #AnthroZedsEX.cellZombies
+	AnthroZedsEX.zombiesFurred = 0
+end
+
+--Run through each zombie around the player, zombiesPerTick at a time, and replace something with fur.
+--Automatically refreshes itself when list is empty.
+--This way, we can iterate over every zombie without harming performance with OnZombieUpdate.
+function AnthroZedsEX.runList()
+	if #AnthroZedsEX.cellZombies <= 0 then
+		AnthroZedsEX.getZombies()
+	end
+	local remaining = AnthroZedsEX.zombiesPerTick
+	while #AnthroZedsEX.cellZombies > 0 and remaining > 0 do
+		AnthroZedsEX.checkZombie(AnthroZedsEX.cellZombies[#AnthroZedsEX.cellZombies])
+		table.remove(AnthroZedsEX.cellZombies, #AnthroZedsEX.cellZombies)
+		remaining =- 1
+	end
+
 end
 
 --Performance saver. Rather than iterating every zombie, every tick, we store what we have already seen and skip it.
@@ -334,8 +354,9 @@ end
 
 
 
-if AnthroZedsEX.debugMode then Events.OnZombieUpdate.Add(AnthroZedsEX.onZombieUpdate) end
+-- Events.OnZombieUpdate.Add(AnthroZedsEX.onZombieUpdate)
 Events.OnGameStart.Add(AnthroZedsEX.onGameStart)
-Events.OnHitZombie.Add(AnthroZedsEX.onHitZombie)
+Events.OnTick.add(AnthroZedsEX.runList)
+-- Events.OnHitZombie.Add(AnthroZedsEX.onHitZombie)
 
 print("AZE loaded.")
